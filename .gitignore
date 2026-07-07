@@ -12,6 +12,9 @@ Thumbs.db
 
 # Logs
 *.log
+# ただし作業ログ(log/配下)は追跡する
+!log/
+!log/*.log
 
 # Dependencies
 node_modules/
