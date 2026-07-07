@@ -62,10 +62,22 @@
   E001(バリデーション全般)/E002(not found)/E003(conflict)/E500(internal) のみを使用しており、
   本表のE001〜E006の粒度と未整合。反映するには実装側の見直しが必要（未実施）
 
+[Step5] テストケース仕様書＆自動検証スクリプト → test/test_cases.md, test/test_api.sh
+- test_cases.md: GET/POST/PUT/DELETEの4エンドポイントについて正常系・異常系のテストケースをマトリクス化
+  （TC-101〜TC-107, TC-201〜TC-207, TC-301〜TC-307, TC-401〜TC-403, TC-501）
+  - TC-107: Step4レビューで指摘した「範囲外page指定時の仕様(400)と実装(200+空配列)の不一致」を
+    検証用ケースとして明記（既知の差分、未修正のまま）
+  - TC-501: 多言語対応（Accept-Language）が未実装であることを示すプレースホルダー
+  - 各ケースに「現状の実装コード」列を設け、doc/error_and_i18n_definition.mdのE001〜E006体系との
+    不一致（実装は簡易4コードのみ）を明示
+- test_api.sh: 上記テストケースをcurlで実行するシェルスクリプト（bash -n で構文チェック済み、実行は自習）
+  - サーバ起動直後の0件確認 → 11件登録してページング確認 → 登録/更新/削除の正常系・異常系を順次実行
+- サーバ起動・実際のcurl実行による動作確認は自習パート（本日は未実施）
+
 [未実施（自習パート）]
-- Step5: テストケース仕様書＆自動検証スクリプト（test/test_cases.md, test/test_api.sh）
-- サーバ起動・curlでの動作確認
-- Step3で洗い出した「エラーコード粒度の実装への反映」（未実施の申し送り事項）
+- サーバ起動・curlでの実際の動作確認（test_api.shの実行）
+- Step3で洗い出した「エラーコード粒度(E001〜E006)の実装への反映」
+- 多言語対応（Accept-Languageによるメッセージ切り替え）の実装
 
 [Git操作]
 - CLAUDE.md 更新＋研修資料一式（.obsidian含む）を初回コミット・push試行
@@ -73,7 +85,11 @@
 - doc/・src/・requirements.txt を追加コミットして再度push試行 → 同じ理由で失敗
 - 受講者がリポジトリを作成後、URLを再確認（誤ってGitHub Projectsボードのリンクを共有→リポジトリURLに訂正）
 - リポジトリ作成確認後、git push origin master が成功（コミット f581ec2 まで反映）
+- doc/error_and_i18n_definition.md・log/20260707.log を追加コミットしてpush（コミット aeba95d）
+  - あわせて .gitignore の `*.log` ルールが log/20260707.log を誤って除外していたため、
+    `!log/` `!log/*.log` の例外を追記して修正
 
 [現在の状態]
 - ローカル/リモートとも同期済み、working tree clean
 - コミット履歴: b1066b4 (初回) → c8e12c2 (研修資料+サブエージェント方針) → f581ec2 (PBI/API仕様書/実装ドラフト)
+  → aeba95d (Step3文言・エラー定義書/作業ログ/.gitignore修正)
